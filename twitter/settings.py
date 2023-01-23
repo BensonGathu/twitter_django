@@ -86,12 +86,12 @@ AUTH_USER_MODEL = "app.User"
 
 DATABASES = {
     'default': {
-        'ENGINE'  : 'django.db.backends.mysql', 
-        'NAME'    : 'twitter',                
-        'USER'    : 'ghost',                    
-        'PASSWORD': '@0703446950Bb',             
-        'HOST'    : 'localhost',                 
-        'PORT'    : '3306', 
+        'ENGINE'  : '', 
+        'NAME'    : '',                
+        'USER'    : '',                    
+        'PASSWORD': '',             
+        'HOST'    : '',                 
+        'PORT'    : '', 
     }
 }
 
