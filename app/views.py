@@ -1,7 +1,7 @@
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import UserSerializer,RegisterSerializer
+from .serializers import LoginSerializer, UserSerializer,RegisterSerializer
 # from django.contrib.auth.models import User
 from .models import User
 from knox.models import AuthToken
@@ -34,12 +34,27 @@ class RegisterUserAPIView(generics.CreateAPIView):
         })
 
 
-class LoginAPI(KnoxLoginView):
-    permission_classes = (AllowAny,)
+# class LoginAPI(KnoxLoginView):
+#     permission_classes = (AllowAny,)
 
-    def post(self, request, format=None):
-        serializer = AuthTokenSerializer(data=request.data)
+#     def post(self, request, format=None):
+#         serializer = AuthTokenSerializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         user = serializer.validated_data['user']
+#         login(request, user)
+        
+#         return super(LoginAPI, self).post(request, format=None)
+
+
+
+class LoginAPI(generics.GenericAPIView):
+    serializer_class = LoginSerializer
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
-        login(request, user)
-        return super(LoginAPI, self).post(request, format=None)
+        user = serializer.validated_data
+        return Response({
+            "user": UserSerializer(user, context=self.get_serializer_context()).data,
+            "token": AuthToken.objects.create(user)[1]
+        })
