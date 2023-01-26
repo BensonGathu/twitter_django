@@ -8,14 +8,15 @@ from django.contrib.auth import authenticate
 
 from django.contrib.auth.password_validation import validate_password
 
+from rest_framework.serializers import ModelSerializer
 
  
 #Serializer to Get User Details using Django Token Authentication
 class UserSerializer(serializers.ModelSerializer):
   class Meta:
     model = User
-    # fields = '__all__'
-    fields = ["id", "username", "first_name", "last_name","email",'date_of_birth','language','user_name','phone_number']
+    fields = '__all__'
+    # fields = ["id", "username", "first_name", "last_name","email",'date_of_birth','language','user_name','phone_number']
 
 
 #Serializer to Register User
@@ -72,3 +73,6 @@ class LoginSerializer(serializers.Serializer):
         if user and user.is_active:
             return user
         raise serializers.ValidationError('Incorrect Credentials Passed.')
+
+
+
